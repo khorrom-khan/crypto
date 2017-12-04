@@ -31,9 +31,10 @@ public class X509Server {
        
         //Decipher received message using server's private key 
         Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
-        byte[] in = (byte[]) inStream.readObject();
-		cipher.init(Cipher.DECRYPT_MODE, serverPrivateKey);
-		byte[] message = cipher.doFinal(in);
+        cipher.init(Cipher.DECRYPT_MODE, serverPrivateKey);
+        
+        byte[] receivedByte = (byte[]) inStream.readObject();
+		byte[] message = cipher.doFinal(receivedByte);
 		
 		//Print the message
 		System.out.println("The deciphered message is: " + new String(message));

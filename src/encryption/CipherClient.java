@@ -4,7 +4,6 @@ import java.io.*;
 import java.net.*;
 import java.security.*;
 import javax.crypto.*;
-import javax.swing.plaf.SliderUI;
 
 public class CipherClient
 {
@@ -22,23 +21,23 @@ public class CipherClient
 		Key key = keyGen.generateKey();
 		
 		//Store the key in a file
-		ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(new File("keyFile.dat")));
-		out.writeObject(key);	
-		out.close();
+		ObjectOutputStream fileOut = new ObjectOutputStream(new FileOutputStream(new File("keyFile.dat")));
+		fileOut.writeObject(key);	
+		fileOut.close();
 	    
-		//Encrypts given String object using key and sends the encrypted object over the socket to the server
+		//Encrypt given String using key and send the encrypted object over the socket to the server
 		Socket s = new Socket(host, port);	
-		
-	    Cipher cipher = Cipher.getInstance("DES/ECB/PKCS5Padding");
-	    CipherOutputStream cipherOut = new CipherOutputStream(s.getOutputStream(), cipher);
-		cipher.init(Cipher.ENCRYPT_MODE, key); //sets the cipher object to Encrypt mode with the specified key k 
-	    byte input[] = message.getBytes();
-	    cipherOut.write(input, 0, input.length);
-	    cipherOut.close();
-  
-	    Thread.sleep(4000);
+		ObjectOutputStream outStream = new ObjectOutputStream(s.getOutputStream());
+	
+		Cipher cipher = Cipher.getInstance("DES/ECB/PKCS5Padding");
+        cipher.init(Cipher.ENCRYPT_MODE, key);
+        byte[] cipherText = cipher.doFinal(message.getBytes());
+        
+        outStream.writeObject(cipherText);
+		outStream.flush();
+		outStream.close();
+	    		
 	    s.close();
-
 	    
 	}
 }
