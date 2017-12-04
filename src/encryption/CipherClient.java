@@ -15,17 +15,18 @@ public class CipherClient
 		System.out.println("The original message is: "+message);
 		String host = "127.0.0.1";
 		int port = 7999;
-		// -Generate a DES key.
+		
+		//Generate a DES key
 		KeyGenerator keyGen = KeyGenerator.getInstance("DES");
 		keyGen.init(new SecureRandom());
 		Key key = keyGen.generateKey();
 		
-		// -Store it in a file
+		//Store the key in a file
 		ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(new File("keyFile.dat")));
 		out.writeObject(key);	
 		out.close();
 	    
-		//encrypts given String object using key and sends the encrypted object over the socket to the server
+		//Encrypts given String object using key and sends the encrypted object over the socket to the server
 		Socket s = new Socket(host, port);	
 		
 	    Cipher cipher = Cipher.getInstance("DES/ECB/PKCS5Padding");

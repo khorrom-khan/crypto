@@ -37,7 +37,7 @@ public class ProtectedClient {
 	
 	public static void main(String[] args) throws Exception
 	{
-		String host = "127.0.0.1";//The IP address of localhost
+		String host = "127.0.0.1";
 		int port = 7999;
 		String user = "George";
 		String password = "abc123";

@@ -6,15 +6,15 @@ import java.math.BigInteger;
 public class ElGamalBob {
 	private static boolean verifySignature(	BigInteger y, BigInteger g, BigInteger p, BigInteger a, BigInteger b, String message)
 	{
-		//compute ((y to the power a)(a to the power b)) mod p
+		//Compute ((y to the power a)(a to the power b)) mod p
 		BigInteger lhs = (y.modPow(a, p).multiply(a.modPow(b, p))).mod(p);
 				
 		BigInteger m = new BigInteger(message.getBytes());
 		
-		//compute g to the power m mod p
+		//Compute g to the power m mod p
 		BigInteger rhs = g.modPow(m, p);
 		
-		//compare lhs to the rhs and return the result 
+		//Compare lhs to the rhs and return the result 
 		return lhs.equals(rhs);
 		
 	}
@@ -26,15 +26,15 @@ public class ElGamalBob {
 		Socket client = s.accept();
 		ObjectInputStream is = new ObjectInputStream(client.getInputStream());
 
-		// read public key
+		// Read public key
 		BigInteger y = (BigInteger)is.readObject();
 		BigInteger g = (BigInteger)is.readObject();
 		BigInteger p = (BigInteger)is.readObject();
 
-		// read message
+		// Read message
 		String message = (String)is.readObject();
 
-		// read signature
+		// Read signature
 		BigInteger a = (BigInteger)is.readObject();
 		BigInteger b = (BigInteger)is.readObject();
 
